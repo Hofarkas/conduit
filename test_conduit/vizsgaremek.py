@@ -5,7 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-from functions import login
+from functions import registration, login
 from login_data import user
 import time
 
@@ -36,11 +36,16 @@ class TestConduit(object):
             '//button[@class="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]')
 
         assert len(accept_cookies_btn) == 0
-        print("Success!")
+        print("1. Success!")
 
-# 02. Regisztráció negatív ágon invalid email-al. Ellenőrzés a hibaüzenet megjelenésére.
+# 02. Regisztráció negatív ágon invalid, már regisztrált email-al. Ellenőrzés a hibaüzenet megjelenésére.
 
-    # def test_invalid_registration(self):
+    def test_invalid_registration(self):
+        registration(self.browser, user["username"], user["email"], user["password"])
+        error_message = self.browser.find_element_by_xpath('//button[@class="swal-button swal-button--confirm"]')
+        assert error_message.is_displayed()
+        print("2. Success!")
+        error_message.click()
 
 # 03. Bejelentkezés valid adatokkal. Ellenőrzés a Log out megjelenésére.
 
@@ -50,7 +55,7 @@ class TestConduit(object):
             EC.presence_of_element_located((By.XPATH, '//a[@active-class="active"]')))
 
         assert logout_btn.is_displayed()
-        print("Success!")
+        print("3. Success!")
 
     # 04. XXX
     # 05. XXX
@@ -71,4 +76,4 @@ class TestConduit(object):
             EC.presence_of_element_located((By.XPATH, '//a[@href="#/login"]')))
 
         assert login_link_btn.is_displayed()
-        print("Success!")
+        print("11. Success!")
