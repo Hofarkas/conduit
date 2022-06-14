@@ -25,7 +25,7 @@ class TestConduit(object):
     def teardown(self):
         self.browser.quit()
 
-# 01. Sütik elfogadása. Assert a lista elem eltűnésére.
+# 01. Sütik elfogadása. Ellenőrzés a lista elem eltűnésére.
 
     def test_accept_cookies(self):
         accept_cookies_btn = self.browser.find_elements_by_xpath(
@@ -38,13 +38,19 @@ class TestConduit(object):
         assert len(accept_cookies_btn) == 0
         print("Success!")
 
-    # 02. Regisztráció negatív ágon invalid email-al. Assert a hibaüzenet megjelenésére.
+# 02. Regisztráció negatív ágon invalid email-al. Ellenőrzés a hibaüzenet megjelenésére.
 
     # def test_invalid_registration(self):
 
-    # 03. Bejelentkezés valid adatokkal. Assert a XXX.
+# 03. Bejelentkezés valid adatokkal. Ellenőrzés a Log out megjelenésére.
 
-    # def test_successful_login(self):
+    def test_login(self):
+        login(self.browser, user["email"], user["password"])
+        logout_btn = WebDriverWait(self.browser, 2).until(
+            EC.presence_of_element_located((By.XPATH, '//a[@active-class="active"]')))
+
+        assert logout_btn.is_displayed()
+        print("Success!")
 
     # 04. XXX
     # 05. XXX
@@ -54,7 +60,7 @@ class TestConduit(object):
     # 09. XXX
     # 10. XXX
 
-# 11. Kijelentkezés. Assert a fejlécen lévő Sign in megjelenésére.
+# 11. Kijelentkezés. Ellenőrzés a fejlécen lévő Sign in megjelenésére.
 
     def test_logout(self):
         login(self.browser, user['email'], user['password'])
