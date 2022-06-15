@@ -23,3 +23,10 @@ def login(browser, user_email, user_password):
     login_password_input.send_keys(user_password)
     sign_in_btn = browser.find_element_by_xpath('//button[@class="btn btn-lg btn-primary pull-xs-right"]')
     sign_in_btn.click()
+
+
+def find_ipsum_tag(browser):
+    home_link_btn = browser.find_element_by_xpath('//a[@class="nav-link router-link-exact-active active"]')
+    home_link_btn.click()
+    find_tag_ipsum = browser.find_element_by_xpath('//a[@href="#/tag/ipsum"]')
+    find_tag_ipsum.click()

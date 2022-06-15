@@ -5,7 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-from functions import registration, login
+from functions import registration, login, find_ipsum_tag
 from login_data import user
 import time
 
@@ -25,7 +25,7 @@ class TestConduit(object):
     def teardown(self):
         self.browser.quit()
 
-# 01. Sütik elfogadása. Ellenőrzés a lista elem eltűnésére.
+    # 01. Sütik elfogadása. Ellenőrzés a lista elem eltűnésére.
 
     def test_accept_cookies(self):
         accept_cookies_btn = self.browser.find_elements_by_xpath(
@@ -38,7 +38,7 @@ class TestConduit(object):
         assert len(accept_cookies_btn) == 0
         print("1. Success!")
 
-# 02. Regisztráció negatív ágon invalid, már regisztrált email-al. Ellenőrzés a hibaüzenet megjelenésére.
+    # 02. Regisztráció negatív ágon invalid, már regisztrált email-al. Ellenőrzés a hibaüzenet megjelenésére.
 
     def test_invalid_registration(self):
         registration(self.browser, user["username"], user["email"], user["password"])
@@ -47,7 +47,7 @@ class TestConduit(object):
         print("2. Success!")
         error_message.click()
 
-# 03. Bejelentkezés valid adatokkal. Ellenőrzés a Log out megjelenésére.
+    # 03. Bejelentkezés valid adatokkal. Ellenőrzés a Log out megjelenésére.
 
     def test_login(self):
         login(self.browser, user["email"], user["password"])
@@ -57,7 +57,16 @@ class TestConduit(object):
         assert logout_btn.is_displayed()
         print("3. Success!")
 
-    # 04. XXX
+    # 04. Adatok, az összes "lorem" taggel ellátott cikk kilistázása. Ellenőrzés a #lorem megjelenésére.
+
+    def test_find_ipsum_tag(self):
+        find_ipsum_tag(self.browser)
+        lorem_hashtag = WebDriverWait(self.browser, 2).until(
+            EC.presence_of_element_located((By.XPATH, '//a[@class ="nav-link router-link-exact-active active"]')))
+
+        assert lorem_hashtag.is_displayed()
+        print("4. Success!")
+
     # 05. XXX
     # 06. XXX
     # 07. XXX
@@ -65,7 +74,7 @@ class TestConduit(object):
     # 09. XXX
     # 10. XXX
 
-# 11. Kijelentkezés. Ellenőrzés a fejlécen lévő Sign in megjelenésére.
+    # 11. Kijelentkezés. Ellenőrzés a fejlécen lévő Sign in megjelenésére.
 
     def test_logout(self):
         login(self.browser, user['email'], user['password'])
