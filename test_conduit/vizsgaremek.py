@@ -88,15 +88,15 @@ class TestConduit(object):
         print("5. Success!")
 
     # 06. Új adat bevitel, egy új cikk létrehozása.
-    # Ellenőrzés
+    # Ellenőrzés a cikk címének megjelenésére.
     #
-    # def test_create_new_article(self):
-    #     create_new_article(self.browser, article["title"], article["about"], article["main"], article["tag"])
-    #     container = WebDriverWait(self.browser, 2).until(
-    #         EC.presence_of_element_located((By.XPATH, '//div[@class ="container"]')))
-    #
-    #     assert article["title"] in container
-    #     print("6. Success!")
+    def test_create_new_article(self):
+        login(self.browser, user["email"], user["password"])
+        create_new_article(self.browser, article["title"], article["about"], article["main"], article["tag"])
+        article_title = self.browser.find_element_by_xpath('//h1')
+
+        assert article_title.text == article["title"]
+        print("6. Success!")
 
     # 07. Meglévő adat módosítása, egy cikk szerkesztése.
     # Ellenőrzés
