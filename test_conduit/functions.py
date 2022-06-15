@@ -1,4 +1,4 @@
-# import time
+import time
 
 
 def registration(browser, user_name, user_email, user_password):
@@ -30,3 +30,18 @@ def find_ipsum_tag(browser):
     home_link_btn.click()
     find_tag_ipsum = browser.find_element_by_xpath('//a[@href="#/tag/ipsum"]')
     find_tag_ipsum.click()
+
+
+# def create_new_article(browser, title_input, about_input, main_input, tag_input):
+#     new_article_btn = browser.find_element_by_xpath('//a[@class="nav-link"]')
+#     new_article_btn.click()
+#     new_article_title_input = browser.find_element_by_xpath('//input[@class="form-control form-control-lg"]')
+#     new_article_title_input.send_keys(title_input)
+#     new_article_about_input = browser.find_element_by_xpath('//input[@type="text"]')
+#     new_article_about_input.send_keys(about_input)
+#     new_article_main_input = browser.find_element_by_xpath('//textarea[@rows="8"]')
+#     new_article_main_input.send_keys(main_input)
+#     new_article_tag_input = browser.find_element_by_xpath('//div[@class="vue-tags-input form-control"]')
+#     new_article_tag_input.send_keys(tag_input)
+#     publish_article_btn = browser.find_element_by_xpath('//button[@class="btn btn-lg pull-xs-right btn-primary"]')
+#     publish_article_btn.click()
