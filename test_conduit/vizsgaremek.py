@@ -109,14 +109,20 @@ class TestConduit(object):
         assert edited_article_title.text == "Kutyapók az erdő mélyén"
         print("7. Success!")
 
-    # 08. Adat törlése, egy cikk eltávolítása.
+    # 08. Adatok lementése felületről.
     # Ellenőrzés
 
-    # def test_delete_article(self):
-    #     login(self.browser, user["email"], user["password"])
-
-    # 09. Adatok lementése felületről.
+    # 09. Adat törlése, egy cikk eltávolítása.
     # Ellenőrzés
+
+    def test_delete_article(self):
+        login(self.browser, user["email"], user["password"])
+        delete_article(self.browser)
+        my_article = self.browser.find_elements_by_xpath(
+            '//h1[text()="Kutyapók az erdő mélyén"]')
+
+        assert len(my_article) == 0
+        print("9. Success!")
 
     # 10. Ismételt és sorozatos adatbevitel adatforrásból.
     # Ellenőrzés

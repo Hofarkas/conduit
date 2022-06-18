@@ -66,3 +66,16 @@ def editing_article(browser, edit_title):
     publish_edited_article = browser.find_element_by_xpath('//button[@type="submit"]')
     publish_edited_article.click()
     time.sleep(2)
+
+
+def delete_article(browser):
+    profile_btn = browser.find_element_by_xpath('//a[@href="#/@Tesztelek/"]')
+    profile_btn.click()
+    time.sleep(2)
+    my_article = browser.find_element_by_xpath(
+        '//h1[text()="Kutyapók az erdő mélyén"]')
+    my_article.click()
+    time.sleep(2)
+    delete_button = browser.find_element_by_xpath('//button[@class="btn btn-outline-danger btn-sm"]')
+    delete_button.click()
+    time.sleep(2)
