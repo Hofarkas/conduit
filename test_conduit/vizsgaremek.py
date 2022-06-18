@@ -7,7 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from functions import *
 from login_data import user
-from article_data import article
+from article_data import article, edit_article
 import time
 
 
@@ -89,7 +89,7 @@ class TestConduit(object):
 
     # 06. Új adat bevitel, egy új cikk létrehozása.
     # Ellenőrzés a cikk címének megjelenésére.
-    #
+
     def test_create_new_article(self):
         login(self.browser, user["email"], user["password"])
         create_new_article(self.browser, article["title"], article["about"], article["main"], article["tag"])
@@ -98,18 +98,25 @@ class TestConduit(object):
         assert article_title.text == article["title"]
         print("6. Success!")
 
-    # 07. Meglévő adat módosítása, egy cikk szerkesztése.
-    # Ellenőrzés
+    # 07. Meglévő adat módosítása, egy cikk címének szerkesztése.
+    # Ellenőrzés az új cím megjelenésére.
 
-    # def
+    def test_edit_article(self):
+        login(self.browser, user["email"], user["password"])
+        editing_article(self.browser, edit_article["new_title"])
+        edited_article_title = self.browser.find_element_by_xpath('//h1')
+
+        assert edited_article_title.text == "Kutyapók az erdő mélyén"
+        print("7. Success!")
 
     # 08. Adat törlése, egy cikk eltávolítása.
     # Ellenőrzés
 
+    # def test_delete_article(self):
+    #     login(self.browser, user["email"], user["password"])
 
     # 09. Adatok lementése felületről.
     # Ellenőrzés
-
 
     # 10. Ismételt és sorozatos adatbevitel adatforrásból.
     # Ellenőrzés
