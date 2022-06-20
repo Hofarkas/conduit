@@ -68,6 +68,13 @@ def editing_article(browser, edit_title):
     time.sleep(2)
 
 
+def save_data(browser):
+    profile_btn = browser.find_element_by_xpath('//a[@href="#/@Tesztelek/"]')
+    profile_btn.click()
+    time.sleep(2)
+
+
+
 def delete_article(browser):
     profile_btn = browser.find_element_by_xpath('//a[@href="#/@Tesztelek/"]')
     profile_btn.click()

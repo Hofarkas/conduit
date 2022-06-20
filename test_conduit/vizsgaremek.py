@@ -109,11 +109,29 @@ class TestConduit(object):
         assert edited_article_title.text == "Kutyapók az erdő mélyén"
         print("7. Success!")
 
-    # 08. Adatok lementése felületről.
-    # Ellenőrzés
+    # 08. Adatok, a saját cikk tartalmának lementése felületről.
+    # Ellenőrzés a tartalom txt-ben lévő megjelenésére.
+
+    def test_save_data(self):
+        login(self.browser, user["email"], user["password"])
+        save_data(self.browser)
+        my_article = self.browser.find_element_by_xpath(
+            '//h1[text()="Kutyapók az erdő mélyén"]')
+        my_article.click()
+        time.sleep(2)
+        article_main = self.browser.find_element_by_xpath('//div[@class="col-xs-12"]/div/p')
+        # print(article_main.text)
+        with open("./article_main.txt", "w", encoding='UTF-8') as file:
+            file.write(article_main.text)
+
+        with open("./article_main.txt", "r", encoding='UTF-8') as file:
+            content = file.readlines()
+
+        assert content[0] == "Valószerűtlennek tűnő, parányi élőlényt örökített meg Andreas Kay tudós az ecuadori esőerdő mélyén, ahol a világ talán legkülönösebb kinézetű ízeltlábúja rejtőzik. A Metagryne bicolumnata néven ismert kaszáspókféle meglehetősen aprócska, ugyanakkor igencsak feltűnő jelenség, hiszen feje (pontosabban előteste) leginkább egy kutyára emlékeztet."
+        print("8. Success!")
 
     # 09. Adat törlése, egy cikk eltávolítása.
-    # Ellenőrzés
+    # Ellenőrzés arra, hogy a cikk már nem található.
 
     def test_delete_article(self):
         login(self.browser, user["email"], user["password"])
@@ -127,7 +145,8 @@ class TestConduit(object):
     # 10. Ismételt és sorozatos adatbevitel adatforrásból.
     # Ellenőrzés
 
-    # 11. Kijelentkezés. Ellenőrzés a fejlécen lévő Sign in megjelenésére.
+    # 11. Kijelentkezés.
+    # Ellenőrzés a fejlécen lévő Sign in megjelenésére.
 
     def test_logout(self):
         login(self.browser, user['email'], user['password'])
