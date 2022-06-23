@@ -154,20 +154,20 @@ class TestConduit(object):
                                  'https://i.pinimg.com/474x/30/95/33/30953317f40a9907fa5f5eac4353f6b6.jpg']
         for pictures in profile_pictures_list:
             actual_img = image_changes(self.browser, pictures)
+            time.sleep(2)
             assert actual_img.get_attribute("src") == pictures
             print("10. Success!")
-
 
 # 11. Kijelentkezés.
 # Ellenőrzés a fejlécen lévő Sign in megjelenésére.
 
-def test_logout(self):
-    login(self.browser, user['email'], user['password'])
-    time.sleep(2)
-    logout_btn = self.browser.find_element_by_xpath('//a[@active-class="active"]')
-    logout_btn.click()
-    login_link_btn = WebDriverWait(self.browser, 2).until(
-        EC.presence_of_element_located((By.XPATH, '//a[@href="#/login"]')))
+    def test_logout(self):
+        login(self.browser, user['email'], user['password'])
+        time.sleep(2)
+        logout_btn = self.browser.find_element_by_xpath('//a[@active-class="active"]')
+        logout_btn.click()
+        login_link_btn = WebDriverWait(self.browser, 2).until(
+            EC.presence_of_element_located((By.XPATH, '//a[@href="#/login"]')))
 
-    assert login_link_btn.is_displayed()
-    print("11. Success!")
+        assert login_link_btn.is_displayed()
+        print("11. Success!")
