@@ -22,8 +22,8 @@ class TestConduit(object):
     def teardown(self):
         self.browser.quit()
 
-# 01. Sütik elfogadása.
-# Ellenőrzés a lista elem eltűnésére.
+    # 01. Sütik elfogadása.
+    # Ellenőrzés a lista elem eltűnésére.
 
     def test_accept_cookies(self):
         accept_cookies_btn = self.browser.find_elements_by_xpath(
@@ -36,8 +36,8 @@ class TestConduit(object):
         assert len(accept_cookies_btn) == 0
         print("1. Success!")
 
-# 02. Regisztráció negatív ágon már regisztrált email-al.
-# Ellenőrzés a hibaüzenet megjelenésére.
+    # 02. Regisztráció negatív ágon már regisztrált email-al.
+    # Ellenőrzés a hibaüzenet megjelenésére.
 
     def test_invalid_registration(self):
         registration(self.browser, user["username"], user["email"], user["password"])
@@ -47,8 +47,8 @@ class TestConduit(object):
         print("2. Success!")
         error_message.click()
 
-# 03. Bejelentkezés helyesen megadott adatokkal.
-# Ellenőrzés a Log out megjelenésére.
+    # 03. Bejelentkezés helyesen megadott adatokkal.
+    # Ellenőrzés a Log out megjelenésére.
 
     def test_login(self):
         login(self.browser, user["email"], user["password"])
@@ -58,8 +58,8 @@ class TestConduit(object):
         assert logout_btn.is_displayed()
         print("3. Success!")
 
-# 04. Adatok, az összes "lorem" taggel ellátott cikk kilistázása.
-# Ellenőrzés a #lorem megjelenésére.
+    # 04. Adatok, az összes "lorem" taggel ellátott cikk kilistázása.
+    # Ellenőrzés a #lorem megjelenésére.
 
     def test_find_ipsum_tag(self):
         login(self.browser, user["email"], user["password"])
@@ -70,8 +70,8 @@ class TestConduit(object):
         assert lorem_hashtag.is_displayed()
         print("4. Success!")
 
-# 05. Több oldalas lista bejárás, a cikkek végiglapozása a kezdőoldalon.
-# Ellenőrzés az aktuális oldalra.
+    # 05. Több oldalas lista bejárás, a cikkek végiglapozása a kezdőoldalon.
+    # Ellenőrzés az aktuális oldalra.
 
     def test_pagination(self):
         login(self.browser, user["email"], user["password"])
@@ -83,8 +83,8 @@ class TestConduit(object):
             assert page.text in actual_page.text
         print("5. Success!")
 
-# 06. Új adat bevitel, egy új cikk létrehozása.
-# Ellenőrzés a cikk címének megjelenésére.
+    # 06. Új adat bevitel, egy új cikk létrehozása.
+    # Ellenőrzés a cikk címének megjelenésére.
 
     def test_create_new_article(self):
         login(self.browser, user["email"], user["password"])
@@ -96,8 +96,8 @@ class TestConduit(object):
         assert article_titles[0].text == article["title"]
         print("6. Success!")
 
-# 07. Meglévő adat módosítása, egy cikk címének szerkesztése.
-# Ellenőrzés az új cím megjelenésére.
+    # 07. Meglévő adat módosítása, egy cikk címének szerkesztése.
+    # Ellenőrzés az új cím megjelenésére.
 
     def test_edit_article(self):
         login(self.browser, user["email"], user["password"])
@@ -107,8 +107,8 @@ class TestConduit(object):
         assert edited_article_title.text == "Kutyapók az erdő mélyén"
         print("7. Success!")
 
-# 08. Adatok, a saját cikk tartalmának lementése felületről.
-# Ellenőrzés a tartalom txt-ben lévő megjelenésére.
+    # 08. Adatok, a saját cikk tartalmának lementése felületről.
+    # Ellenőrzés a tartalom txt-ben lévő megjelenésére.
 
     def test_save_data(self):
         login(self.browser, user["email"], user["password"])
@@ -129,8 +129,8 @@ class TestConduit(object):
                    0] == "Valószerűtlennek tűnő, parányi élőlényt örökített meg Andreas Kay tudós az ecuadori esőerdő mélyén, ahol a világ talán legkülönösebb kinézetű ízeltlábúja rejtőzik. A Metagryne bicolumnata néven ismert kaszáspókféle meglehetősen aprócska, ugyanakkor igencsak feltűnő jelenség, hiszen feje (pontosabban előteste) leginkább egy kutyára emlékeztet."
         print("8. Success!")
 
-# 09. Adat törlése, egy cikk eltávolítása.
-# Ellenőrzés arra, hogy a cikk már nem található.
+    # 09. Adat törlése, egy cikk eltávolítása.
+    # Ellenőrzés arra, hogy a cikk már nem található.
 
     def test_delete_article(self):
         login(self.browser, user["email"], user["password"])
@@ -141,8 +141,8 @@ class TestConduit(object):
         assert len(my_article) == 0
         print("9. Success!")
 
-# 10. Ismételt és sorozatos adatbevitel adatforrásból, a profilkép lecserélése 5 alkalommal.
-# Ellenőrzés az aktuális kép megjelenésére.
+    # 10. Ismételt és sorozatos adatbevitel adatforrásból, a profilkép lecserélése 5 alkalommal.
+    # Ellenőrzés az aktuális kép megjelenésére.
 
     def test_input_from_file(self):
         login(self.browser, user["email"], user["password"])
@@ -157,8 +157,8 @@ class TestConduit(object):
             assert actual_img.get_attribute("src") == pictures
             print("10. Success!")
 
-# 11. Kijelentkezés.
-# Ellenőrzés a fejlécen lévő Sign in megjelenésére.
+    # 11. Kijelentkezés.
+    # Ellenőrzés a fejlécen lévő Sign in megjelenésére.
 
     def test_logout(self):
         login(self.browser, user['email'], user['password'])
