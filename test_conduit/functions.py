@@ -13,6 +13,7 @@ def registration(browser, user_name, user_email, user_password):
     reg_password_input.send_keys(user_password)
     sign_up_btn = browser.find_element_by_xpath('//button[@class="btn btn-lg btn-primary pull-xs-right"]')
     sign_up_btn.click()
+    time.sleep(2)
 
 
 def login(browser, user_email, user_password):
