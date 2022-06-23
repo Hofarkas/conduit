@@ -74,7 +74,6 @@ def save_data(browser):
     time.sleep(2)
 
 
-
 def delete_article(browser):
     profile_btn = browser.find_element_by_xpath('//a[@href="#/@Tesztelek/"]')
     profile_btn.click()
@@ -86,3 +85,20 @@ def delete_article(browser):
     delete_button = browser.find_element_by_xpath('//button[@class="btn btn-outline-danger btn-sm"]')
     delete_button.click()
     time.sleep(2)
+
+
+def image_changes(browser, pictures):
+    settings_btn = browser.find_element_by_xpath('//a[@href="#/settings"]')
+    settings_btn.click()
+    profile_picture_input = browser.find_element_by_xpath('//input[@placeholder="URL of profile picture"]')
+    profile_picture_input.clear()
+    profile_picture_input.send_keys(pictures)
+    update_settings_btn = browser.find_element_by_xpath(
+        '//button[@class="btn btn-lg btn-primary pull-xs-right"]')
+    update_settings_btn.click()
+    ok_btn = browser.find_element_by_xpath('//button[@class="swal-button swal-button--confirm"]')
+    ok_btn.click()
+    profile_btn = browser.find_element_by_xpath('//a[@href="#/@Tesztelek/"]')
+    profile_btn.click()
+    actual_img = browser.find_element_by_xpath('//img[@class="user-img"]')
+    return actual_img

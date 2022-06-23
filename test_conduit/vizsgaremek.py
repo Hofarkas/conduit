@@ -11,9 +11,6 @@ from article_data import article, edit_article
 import time
 
 
-# import csv
-
-
 class TestConduit(object):
     def setup(self):
         browser_options = Options()
@@ -26,8 +23,8 @@ class TestConduit(object):
     def teardown(self):
         self.browser.quit()
 
-    # 01. Sütik elfogadása.
-    # Ellenőrzés a lista elem eltűnésére.
+# 01. Sütik elfogadása.
+# Ellenőrzés a lista elem eltűnésére.
 
     def test_accept_cookies(self):
         accept_cookies_btn = self.browser.find_elements_by_xpath(
@@ -40,8 +37,8 @@ class TestConduit(object):
         assert len(accept_cookies_btn) == 0
         print("1. Success!")
 
-    # 02. Regisztráció negatív ágon már regisztrált email-al.
-    # Ellenőrzés a hibaüzenet megjelenésére.
+# 02. Regisztráció negatív ágon már regisztrált email-al.
+# Ellenőrzés a hibaüzenet megjelenésére.
 
     def test_invalid_registration(self):
         registration(self.browser, user["username"], user["email"], user["password"])
@@ -51,8 +48,8 @@ class TestConduit(object):
         print("2. Success!")
         error_message.click()
 
-    # 03. Bejelentkezés helyesen megadott adatokkal.
-    # Ellenőrzés a Log out megjelenésére.
+# 03. Bejelentkezés helyesen megadott adatokkal.
+# Ellenőrzés a Log out megjelenésére.
 
     def test_login(self):
         login(self.browser, user["email"], user["password"])
@@ -62,8 +59,8 @@ class TestConduit(object):
         assert logout_btn.is_displayed()
         print("3. Success!")
 
-    # 04. Adatok, az összes "lorem" taggel ellátott cikk kilistázása.
-    # Ellenőrzés a #lorem megjelenésére.
+# 04. Adatok, az összes "lorem" taggel ellátott cikk kilistázása.
+# Ellenőrzés a #lorem megjelenésére.
 
     def test_find_ipsum_tag(self):
         login(self.browser, user["email"], user["password"])
@@ -74,8 +71,8 @@ class TestConduit(object):
         assert lorem_hashtag.is_displayed()
         print("4. Success!")
 
-    # 05. Több oldalas lista bejárás, a cikkek végiglapozása a kezdőoldalon.
-    # Ellenőrzés az aktuális oldalra.
+# 05. Több oldalas lista bejárás, a cikkek végiglapozása a kezdőoldalon.
+# Ellenőrzés az aktuális oldalra.
 
     def test_pagination(self):
         login(self.browser, user["email"], user["password"])
@@ -87,19 +84,21 @@ class TestConduit(object):
             assert page.text in actual_page.text
         print("5. Success!")
 
-    # 06. Új adat bevitel, egy új cikk létrehozása.
-    # Ellenőrzés a cikk címének megjelenésére.
+# 06. Új adat bevitel, egy új cikk létrehozása.
+# Ellenőrzés a cikk címének megjelenésére.
 
     def test_create_new_article(self):
         login(self.browser, user["email"], user["password"])
         create_new_article(self.browser, article["title"], article["about"], article["main"], article["tag"])
-        article_title = self.browser.find_element_by_xpath('//h1')
+        article_titles = self.browser.find_elements_by_xpath('//h1')
+        for article_item in article_titles:
+            print(article_item.text)
 
-        assert article_title.text == article["title"]
+        assert article_titles[0].text == article["title"]
         print("6. Success!")
 
-    # 07. Meglévő adat módosítása, egy cikk címének szerkesztése.
-    # Ellenőrzés az új cím megjelenésére.
+# 07. Meglévő adat módosítása, egy cikk címének szerkesztése.
+# Ellenőrzés az új cím megjelenésére.
 
     def test_edit_article(self):
         login(self.browser, user["email"], user["password"])
@@ -109,8 +108,8 @@ class TestConduit(object):
         assert edited_article_title.text == "Kutyapók az erdő mélyén"
         print("7. Success!")
 
-    # 08. Adatok, a saját cikk tartalmának lementése felületről.
-    # Ellenőrzés a tartalom txt-ben lévő megjelenésére.
+# 08. Adatok, a saját cikk tartalmának lementése felületről.
+# Ellenőrzés a tartalom txt-ben lévő megjelenésére.
 
     def test_save_data(self):
         login(self.browser, user["email"], user["password"])
@@ -127,11 +126,12 @@ class TestConduit(object):
         with open("./article_main.txt", "r", encoding='UTF-8') as file:
             content = file.readlines()
 
-        assert content[0] == "Valószerűtlennek tűnő, parányi élőlényt örökített meg Andreas Kay tudós az ecuadori esőerdő mélyén, ahol a világ talán legkülönösebb kinézetű ízeltlábúja rejtőzik. A Metagryne bicolumnata néven ismert kaszáspókféle meglehetősen aprócska, ugyanakkor igencsak feltűnő jelenség, hiszen feje (pontosabban előteste) leginkább egy kutyára emlékeztet."
+        assert content[
+                   0] == "Valószerűtlennek tűnő, parányi élőlényt örökített meg Andreas Kay tudós az ecuadori esőerdő mélyén, ahol a világ talán legkülönösebb kinézetű ízeltlábúja rejtőzik. A Metagryne bicolumnata néven ismert kaszáspókféle meglehetősen aprócska, ugyanakkor igencsak feltűnő jelenség, hiszen feje (pontosabban előteste) leginkább egy kutyára emlékeztet."
         print("8. Success!")
 
-    # 09. Adat törlése, egy cikk eltávolítása.
-    # Ellenőrzés arra, hogy a cikk már nem található.
+# 09. Adat törlése, egy cikk eltávolítása.
+# Ellenőrzés arra, hogy a cikk már nem található.
 
     def test_delete_article(self):
         login(self.browser, user["email"], user["password"])
@@ -142,19 +142,32 @@ class TestConduit(object):
         assert len(my_article) == 0
         print("9. Success!")
 
-    # 10. Ismételt és sorozatos adatbevitel adatforrásból.
-    # Ellenőrzés
+# 10. Ismételt és sorozatos adatbevitel adatforrásból, a profilkép lecserélése 5 alkalommal.
+# Ellenőrzés az aktuális kép megjelenésére.
 
-    # 11. Kijelentkezés.
-    # Ellenőrzés a fejlécen lévő Sign in megjelenésére.
+    def test_input_from_file(self):
+        login(self.browser, user["email"], user["password"])
+        profile_pictures_list = ['https://i.pinimg.com/originals/af/37/54/af3754293e36740068bb6983aeb941d0.jpg',
+                                 'https://i.pinimg.com/564x/3a/2b/3d/3a2b3d9d4e9e3e839cbd86347da949b4--funny-cats-funny-animals.jpg',
+                                 'https://data.whicdn.com/images/353030664/original.jpg',
+                                 'https://i.pinimg.com/736x/43/9e/fc/439efccb2ec86c2f17d69ef50d47c051.jpg',
+                                 'https://i.pinimg.com/474x/30/95/33/30953317f40a9907fa5f5eac4353f6b6.jpg']
+        for pictures in profile_pictures_list:
+            actual_img = image_changes(self.browser, pictures)
+            assert actual_img.get_attribute("src") == pictures
+            print("10. Success!")
 
-    def test_logout(self):
-        login(self.browser, user['email'], user['password'])
-        time.sleep(2)
-        logout_btn = self.browser.find_element_by_xpath('//a[@active-class="active"]')
-        logout_btn.click()
-        login_link_btn = WebDriverWait(self.browser, 2).until(
-            EC.presence_of_element_located((By.XPATH, '//a[@href="#/login"]')))
 
-        assert login_link_btn.is_displayed()
-        print("11. Success!")
+# 11. Kijelentkezés.
+# Ellenőrzés a fejlécen lévő Sign in megjelenésére.
+
+def test_logout(self):
+    login(self.browser, user['email'], user['password'])
+    time.sleep(2)
+    logout_btn = self.browser.find_element_by_xpath('//a[@active-class="active"]')
+    logout_btn.click()
+    login_link_btn = WebDriverWait(self.browser, 2).until(
+        EC.presence_of_element_located((By.XPATH, '//a[@href="#/login"]')))
+
+    assert login_link_btn.is_displayed()
+    print("11. Success!")
