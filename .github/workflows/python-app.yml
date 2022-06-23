@@ -31,7 +31,6 @@ jobs:
     
     - name: Test with pytest
       run: |
-        pip install pytest
         pytest --alluredir=allure-results
         
     - name: Allure Report action from marketplace
