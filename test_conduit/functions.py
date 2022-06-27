@@ -89,21 +89,24 @@ def delete_article(browser):
     time.sleep(2)
 
 
-def image_changes(browser, pictures):
-    settings_btn = browser.find_element_by_xpath('//a[@href="#/settings"]')
-    settings_btn.click()
-    profile_picture_input = browser.find_element_by_xpath('//input[@placeholder="URL of profile picture"]')
-    profile_picture_input.clear()
-    profile_picture_input.send_keys(pictures)
-    update_settings_btn = browser.find_element_by_xpath(
-        '//button[@class="btn btn-lg btn-primary pull-xs-right"]')
-    update_settings_btn.click()
-    ok_btn = browser.find_element_by_xpath('//button[@class="swal-button swal-button--confirm"]')
-    ok_btn.click()
-    profile_btn = browser.find_element_by_xpath('//a[@href="#/@Tesztelek/"]')
-    profile_btn.click()
-    actual_img = browser.find_element_by_xpath('//img[@class="user-img"]')
-    return actual_img
+def add_comments(browser):
+    my_article = browser.find_elements_by_xpath('//h1')
+    my_article_text = my_article[1].text
+    my_article[1].click()
+    time.sleep(2)
+    article_name = browser.find_element_by_xpath('//div[@class="container"]/h1')
+    assert my_article_text == article_name.text
+    comment_textarea = browser.find_element_by_xpath('//div[@class="card-block"]/textarea')
+    comment_submit_button = browser.find_element_by_xpath('//button[@class="btn btn-sm btn-primary"]')
+    with open("./comments.txt", "r", encoding='UTF-8') as file:
+        file_row_count = len(file.readlines())
+        file.seek(0)
+        for line in file.readlines():
+            comment_textarea.clear()
+            comment_textarea.send_keys(line)
+            comment_submit_button.click()
+    time.sleep(2)
+    return file_row_count
 
 
 def log_out(browser):

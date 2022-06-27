@@ -68,15 +68,15 @@ class TestConduit(object):
         print("3. Success!")
 
     # 04. Adatok, az összes "lorem" taggel ellátott cikk kilistázása.
-    # Ellenőrzés a #lorem megjelenésére.
+    # Ellenőrzés az ipsum tegű cikkek számára.
 
     def test_find_ipsum_tag(self):
         login(self.browser, user["email"], user["password"])
         find_ipsum_tag(self.browser)
-        lorem_hashtag = WebDriverWait(self.browser, 2).until(
-            EC.presence_of_element_located((By.XPATH, '//a[@class="nav-link router-link-exact-active active"]')))
+        time.sleep(5)
+        ipsum_article = self.browser.find_elements_by_xpath('//div[@class="article-preview"]')
 
-        assert lorem_hashtag.is_displayed()
+        assert len(ipsum_article) == 3
         print("4. Success!")
 
     # 05. Több oldalas lista bejárás, a cikkek végiglapozása a kezdőoldalon.
@@ -111,7 +111,8 @@ class TestConduit(object):
     def test_edit_article(self):
         login(self.browser, user["email"], user["password"])
         editing_article(self.browser, edit_article["new_title"])
-        edited_article_title = self.browser.find_element_by_xpath('//h1')
+        edited_article_title = WebDriverWait(self.browser, 2).until(
+            EC.presence_of_element_located((By.XPATH, '//h1')))
 
         assert edited_article_title.text == "Kutyapók az erdő mélyén"
         print("7. Success!")
@@ -134,10 +135,21 @@ class TestConduit(object):
             content = file.readlines()
 
         assert content[
-                   0] == "Valószerűtlennek tűnő, parányi élőlényt örökített meg Andreas Kay tudós az ecuadori esőerdő mélyén, ahol a világ talán legkülönösebb kinézetű ízeltlábúja rejtőzik. A Metagryne bicolumnata néven ismert kaszáspókféle meglehetősen aprócska, ugyanakkor igencsak feltűnő jelenség, hiszen feje (pontosabban előteste) leginkább egy kutyára emlékeztet."
+                   0] == "Parányi élőlényt örökített meg, ami leginkább egy kutyára emlékeztet."
         print("8. Success!")
 
-    # 09. Adat törlése, egy cikk eltávolítása.
+    # 09. Ismételt és sorozatos adatbevitel adatforrásból, a profilkép lecserélése 5 alkalommal.
+    # Ellenőrzés a kiküldött kommentek számára.
+
+    def test_input_from_file(self):
+        login(self.browser, user["email"], user["password"])
+        time.sleep(2)
+        file_row_count = add_comments(self.browser)
+        comments = self.browser.find_elements_by_xpath('//div[@class="card"]')
+        assert len(comments) == file_row_count
+        print("10. Success!")
+
+    # 10. Adat törlése, egy cikk eltávolítása.
     # Ellenőrzés arra, hogy a cikk már nem található.
 
     def test_delete_article(self):
@@ -148,22 +160,6 @@ class TestConduit(object):
 
         assert len(my_article) == 0
         print("9. Success!")
-
-    # 10. Ismételt és sorozatos adatbevitel adatforrásból, a profilkép lecserélése 5 alkalommal.
-    # Ellenőrzés az aktuális kép megjelenésére.
-
-    def test_input_from_file(self):
-        login(self.browser, user["email"], user["password"])
-        profile_pictures_list = ['https://i.pinimg.com/originals/af/37/54/af3754293e36740068bb6983aeb941d0.jpg',
-                                 'https://i.pinimg.com/564x/3a/2b/3d/3a2b3d9d4e9e3e839cbd86347da949b4--funny-cats-funny-animals.jpg',
-                                 'https://data.whicdn.com/images/353030664/original.jpg',
-                                 'https://i.pinimg.com/736x/43/9e/fc/439efccb2ec86c2f17d69ef50d47c051.jpg',
-                                 'https://i.pinimg.com/474x/30/95/33/30953317f40a9907fa5f5eac4353f6b6.jpg']
-        for pictures in profile_pictures_list:
-            actual_img = image_changes(self.browser, pictures)
-            time.sleep(2)
-            assert actual_img.get_attribute("src") == pictures
-            print("10. Success!")
 
     # 11. Kijelentkezés.
     # Ellenőrzés a fejlécen lévő Sign in megjelenésére.
