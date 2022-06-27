@@ -36,16 +36,25 @@ class TestConduit(object):
         assert len(accept_cookies_btn) == 0
         print("1. Success!")
 
-    # 02. Regisztráció negatív ágon már regisztrált email-al.
+    # 02. Regisztráció negatív ágon.
     # Ellenőrzés a hibaüzenet megjelenésére.
 
     def test_invalid_registration(self):
-        registration(self.browser, user["username"], user["email"], user["password"])
-        error_message = self.browser.find_element_by_xpath('//button[@class="swal-button swal-button--confirm"]')
+        registration(self.browser)
+        ok_btn = self.browser.find_element_by_xpath('//button[@class="swal-button swal-button--confirm"]')
+        ok_btn.click()
+        time.sleep(2)
+        name = self.browser.find_element_by_xpath('//a[@href="#/@Tesztelek/"]')
+        assert name.is_displayed()
+        print("2/a. Success!")
 
-        assert error_message.is_displayed()
-        print("2. Success!")
-        error_message.click()
+        time.sleep(2)
+        log_out(self.browser)
+        registration(self.browser)
+        dialog_message = self.browser.find_element_by_xpath('//div[@class="swal-title"]')
+        time.sleep(2)
+        assert dialog_message.text == "Registration failed!"
+        print("2/b. Success!")
 
     # 03. Bejelentkezés helyesen megadott adatokkal.
     # Ellenőrzés a Log out megjelenésére.
@@ -118,7 +127,6 @@ class TestConduit(object):
         my_article.click()
         time.sleep(2)
         article_main = self.browser.find_element_by_xpath('//div[@class="col-xs-12"]/div/p')
-        # print(article_main.text)
         with open("./article_main.txt", "w", encoding='UTF-8') as file:
             file.write(article_main.text)
 
@@ -163,8 +171,7 @@ class TestConduit(object):
     def test_logout(self):
         login(self.browser, user['email'], user['password'])
         time.sleep(2)
-        logout_btn = self.browser.find_element_by_xpath('//a[@active-class="active"]')
-        logout_btn.click()
+        log_out(self.browser)
         login_link_btn = WebDriverWait(self.browser, 2).until(
             EC.presence_of_element_located((By.XPATH, '//a[@href="#/login"]')))
 

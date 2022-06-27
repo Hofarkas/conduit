@@ -1,16 +1,17 @@
 import time
+from login_data import user
 
 
-def registration(browser, user_name, user_email, user_password):
+def registration(browser):
     reg_link_btn = browser.find_element_by_xpath('//a[@href="#/register"]')
     reg_link_btn.click()
     time.sleep(2)
     reg_name_input = browser.find_element_by_xpath('//input[@placeholder="Username"]')
-    reg_name_input.send_keys(user_name)
+    reg_name_input.send_keys(user["username"])
     reg_email_input = browser.find_element_by_xpath('//input[@placeholder="Email"]')
-    reg_email_input.send_keys(user_email)
-    reg_password_input = browser.find_element_by_xpath('//input[@type="password"]')
-    reg_password_input.send_keys(user_password)
+    reg_email_input.send_keys(user["email"])
+    reg_password_input = browser.find_element_by_xpath('//input[@placeholder="Password"]')
+    reg_password_input.send_keys(user["password"])
     sign_up_btn = browser.find_element_by_xpath('//button[@class="btn btn-lg btn-primary pull-xs-right"]')
     sign_up_btn.click()
     time.sleep(2)
@@ -103,3 +104,8 @@ def image_changes(browser, pictures):
     profile_btn.click()
     actual_img = browser.find_element_by_xpath('//img[@class="user-img"]')
     return actual_img
+
+
+def log_out(browser):
+    logout_btn = browser.find_element_by_xpath('//a[@active-class="active"]')
+    logout_btn.click()

@@ -1,5 +1,5 @@
 user = {
     'username': 'Tesztelek',
-    'email': 'teszt@teszt.hu',
+    'email': 'teszt9@teszt.hu',
     'password': '1Szám2Bbetű!'
 }
