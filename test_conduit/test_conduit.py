@@ -138,28 +138,13 @@ class TestConduit(object):
                    0] == "Parányi élőlényt örökített meg, ami leginkább egy kutyára emlékeztet."
         print("8. Success!")
 
-    # 09. Ismételt és sorozatos adatbevitel adatforrásból, a profilkép lecserélése 5 alkalommal.
+    # 09. Ismételt és sorozatos adatbevitel adatforrásból 3 alkalommal.
     # Ellenőrzés a kiküldött kommentek számára.
 
     def test_input_from_file(self):
         login(self.browser, user["email"], user["password"])
         time.sleep(2)
-        my_article = self.browser.find_elements_by_xpath('//h1')
-        my_article_text = my_article[1].text
-        my_article[1].click()
-        time.sleep(2)
-        article_name = self.browser.find_element_by_xpath('//div[@class="container"]/h1')
-        assert my_article_text == article_name.text
-        comment_textarea = self.browser.find_element_by_xpath('//div[@class="card-block"]/textarea')
-        comment_submit_button = self.browser.find_element_by_xpath('//button[@class="btn btn-sm btn-primary"]')
-        with open("comments.txt", "r", encoding='UTF-8') as file:
-            file_row_count = len(file.readlines())
-            file.seek(0)
-            for line in file.readlines():
-                comment_textarea.clear()
-                comment_textarea.send_keys(line)
-                comment_submit_button.click()
-        time.sleep(2)
+        file_row_count = add_comments(self.browser)
         comments = self.browser.find_elements_by_xpath('//div[@class="card"]')
         assert len(comments) == file_row_count
         print("10. Success!")
