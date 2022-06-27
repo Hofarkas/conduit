@@ -48,13 +48,13 @@ class TestConduit(object):
         assert name.is_displayed()
         print("2/a. Success!")
 
-        # time.sleep(2)
-        # log_out(self.browser)
-        # registration(self.browser)
-        # dialog_message = self.browser.find_element_by_xpath('//div[@class="swal-title"]')
-        # time.sleep(2)
-        # assert dialog_message.text == "Registration failed!"
-        # print("2/b. Success!")
+        time.sleep(2)
+        log_out(self.browser)
+        registration(self.browser)
+        dialog_message = self.browser.find_element_by_xpath('//div[@class="swal-title"]')
+        time.sleep(2)
+        assert dialog_message.text == "Registration failed!"
+        print("2/b. Success!")
 
     # 03. Bejelentkezés helyesen megadott adatokkal.
     # Ellenőrzés a Log out megjelenésére.
