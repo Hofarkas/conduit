@@ -98,7 +98,8 @@ def add_comments(browser):
     assert my_article_text == article_name.text
     comment_textarea = browser.find_element_by_xpath('//div[@class="card-block"]/textarea')
     comment_submit_button = browser.find_element_by_xpath('//button[@class="btn btn-sm btn-primary"]')
-    with open("comments.txt", "r", encoding='UTF-8') as comments:
+    # allure csak úgy fut le, ha csak a sima comments.txt szerepel!
+    with open("test_conduit/comments.txt", "r", encoding='UTF-8') as comments:
         file_row_count = len(comments.readlines())
         comments.seek(0)
         for line in comments.readlines():
