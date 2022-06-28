@@ -98,10 +98,10 @@ def add_comments(browser):
     assert my_article_text == article_name.text
     comment_textarea = browser.find_element_by_xpath('//div[@class="card-block"]/textarea')
     comment_submit_button = browser.find_element_by_xpath('//button[@class="btn btn-sm btn-primary"]')
-    with open("comments.txt", "r", encoding='UTF-8') as file:
-        file_row_count = len(file.readlines())
-        file.seek(0)
-        for line in file.readlines():
+    with open("./comments.txt", "r", encoding='UTF-8') as comments:
+        file_row_count = len(comments.readlines())
+        comments.seek(0)
+        for line in comments.readlines():
             comment_textarea.clear()
             comment_textarea.send_keys(line)
             comment_submit_button.click()
